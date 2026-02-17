@@ -526,15 +526,14 @@ class Node < ActiveRecord::Base
     tags.collect(&:name)
   end
 
-  # Here we re-query to fetch /all/ tagnames; this is used in
-  # /views/notes/_notes.html.erb in a way that would otherwise only
-  # return a single tag due to a join, yet select() keeps this efficient
+  # Fetch all tagnames for this node directly, bypassing the `tag`
+  # association which may be filtered by a join in the calling context.
   def tagnames_as_classes
-    Node.select([:nid])
-        .find(id)
-        .tagnames
-        .map { |t| 'tag-' + t.tr(':', '-') }
-        .join(' ')
+    Tag.joins(:node_tag)
+       .where('community_tags.nid = ?', nid)
+       .pluck(:name)
+       .map { |t| 'tag-' + t.tr(':', '-') }
+       .join(' ')
   end
 
   def edit_path
