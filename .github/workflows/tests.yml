@@ -56,12 +56,6 @@ jobs:
     - uses: ./.github/actions/setup-test-environment
     - name: Install JavaScript dependencies with Yarn
       run: yarn check || yarn install --frozen-lockfile;
-    - name: Run webpacker setup
-      env:
-        RAILS_ENV: test
-        DB_PASSWORD: root
-        DB_PORT: ${{ job.services.mysql.ports[3306] }}
-      run: bundle exec rails g webpacker:install && bundle exec rails g webpacker:install:react && bundle exec rails g react:install
     - name: Compile webpacker packs
       env:
         RAILS_ENV: test
@@ -73,6 +67,7 @@ jobs:
     - name: "Functional Tests"
       env:
         RAILS_ENV: test
+        NODE_OPTIONS: --openssl-legacy-provider
         DB_PASSWORD: root
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: bundle exec rails test test/functional
@@ -88,12 +83,6 @@ jobs:
     - uses: ./.github/actions/setup-test-environment
     - name: Install JavaScript dependencies with Yarn
       run: yarn check || yarn install --frozen-lockfile;
-    - name: Run webpacker setup
-      env:
-        RAILS_ENV: test
-        DB_PASSWORD: root
-        DB_PORT: ${{ job.services.mysql.ports[3306] }}
-      run: bundle exec rails g webpacker:install && bundle exec rails g webpacker:install:react && bundle exec rails g react:install
     - name: Compile webpacker packs
       env:
         RAILS_ENV: test
@@ -105,6 +94,7 @@ jobs:
     - name: "Integration Tests"
       env:
         RAILS_ENV: test
+        NODE_OPTIONS: --openssl-legacy-provider
         DB_PASSWORD: root
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: bundle exec rails test test/integration
@@ -133,12 +123,6 @@ jobs:
     - uses: ./.github/actions/setup-test-environment
     - name: Install JavaScript dependencies with Yarn
       run: yarn check || yarn install --frozen-lockfile;
-    - name: Run webpacker setup
-      env:
-        RAILS_ENV: test
-        DB_PASSWORD: root
-        DB_PORT: ${{ job.services.mysql.ports[3306] }}
-      run: bundle exec rails g webpacker:install && bundle exec rails g webpacker:install:react && bundle exec rails g react:install
     - name: Compile webpacker packs
       env:
         RAILS_ENV: test
@@ -150,6 +134,7 @@ jobs:
     - name: "System Tests"
       env:
         RAILS_ENV: test
+        NODE_OPTIONS: --openssl-legacy-provider
         DB_PASSWORD: root
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
         REDIS_HOST: localhost
@@ -196,12 +181,6 @@ jobs:
     - uses: ./.github/actions/setup-test-environment
     - name: Install JavaScript dependencies with Yarn
       run: yarn check || yarn install --frozen-lockfile;
-    - name: Run webpacker setup
-      env:
-        RAILS_ENV: test
-        DB_PASSWORD: root
-        DB_PORT: ${{ job.services.mysql.ports[3306] }}
-      run: bundle exec rails g webpacker:install && bundle exec rails g webpacker:install:react && bundle exec rails g react:install
     - name: Compile webpacker packs
       env:
         RAILS_ENV: test
@@ -213,6 +192,7 @@ jobs:
     - name: "Comment System Tests"
       env:
         RAILS_ENV: test
+        NODE_OPTIONS: --openssl-legacy-provider
         DB_PASSWORD: root
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
         REDIS_HOST: localhost
