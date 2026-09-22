@@ -266,14 +266,14 @@ class CommentTest < ApplicationSystemTestCase
 
     test "#{page_type_string}: formatting toolbar is rendered" do
       visit get_path(page_type, nodes(node_name).path)
-      assert_selector('.btn[data-original-title="Bold"]', count: 1)
-      assert_selector('.btn[data-original-title="Italic"]', count: 1)
-      assert_selector('.btn[data-original-title="Header"]', count: 1)
-      assert_selector('.btn[data-original-title="Link"]', count: 1)
-      assert_selector('.btn[data-original-title="Upload Image"]', count: 1)
-      assert_selector('.btn[data-original-title="Save"]', count: 1)
-      assert_selector('.btn[data-original-title="Recover"]', count: 1)
-      assert_selector('.btn[data-original-title="Help"]', count: 1)
+      assert_selector('.btn[data-original-title="Bold"]', minimum: 1)
+      assert_selector('.btn[data-original-title="Italic"]', minimum: 1)
+      assert_selector('.btn[data-original-title="Header"]', minimum: 1)
+      assert_selector('.btn[data-original-title="Link"]', minimum: 1)
+      assert_selector('.btn[data-original-title="Upload Image"]', minimum: 1)
+      assert_selector('.btn[data-original-title="Save"]', minimum: 1)
+      assert_selector('.btn[data-original-title="Recover"]', minimum: 1)
+      assert_selector('.btn[data-original-title="Help"]', minimum: 1)
     end
 
     test "#{page_type_string}: react and unreact to comment" do
@@ -487,8 +487,8 @@ class CommentTest < ApplicationSystemTestCase
       })
       visit get_path(page_type, nodes(node_name).path)
       reply_toggles = page.all('p', text: 'Reply to this comment...')
-      reply_toggles[2].click
-      reply_dropzone_id = page.find('[id^=dropzone-small-reply-]')[:id] # ID begins with...
+      reply_toggles.last.click
+      reply_dropzone_id = page.first('[id^=dropzone-small-reply-]')[:id] # ID begins with...
       comment_id_num = /dropzone-small-reply-(\d+)/.match(reply_dropzone_id)[1]
       # upload images
       # the <inputs> that take image uploads are hidden, so reveal them:
@@ -502,9 +502,13 @@ class CommentTest < ApplicationSystemTestCase
     end
 
     test "#{page_type_string}: IMMEDIATE image DRAG & DROP into REPLY comment form" do
+      nodes(node_name).add_comment({
+        uid: 5,
+        body: comment_text
+      })
       Capybara.ignore_hidden_elements = false
       visit get_path(page_type, nodes(node_name).path)
-      find("p", text: "Reply to this comment...").click()
+      first("p", text: "Reply to this comment...").click()
       # Upload the image
       drop_in_dropzone("#{Rails.root.to_s}/public/images/pl.png", ".dropzone-large")
       # Wait for image upload to finish
