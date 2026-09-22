@@ -8,6 +8,7 @@ class SpamTest < ApplicationSystemTestCase
     fill_in 'user_session[username]', with: 'palpatine'
     fill_in 'user_session[password]', with: 'secretive'
     click_on "Log in"
+    wait_until_logged_in
   end
 
   test "Delete node in spam2" do

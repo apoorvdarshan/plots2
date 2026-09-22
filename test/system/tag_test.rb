@@ -6,13 +6,7 @@ class TagTest < ApplicationSystemTestCase
   Capybara.default_max_wait_time = 60
 
   def setup
-    visit '/'
-
-    find(".nav-link.loginToggle").click()
-    fill_in("username-login", with: "jeff")
-    fill_in("password-signup", with: "secretive")
-
-    find(".login-modal-form #login-button").click()
+    log_in_as('jeff')
   end
 
   test 'adding a tag via javascript' do
@@ -67,11 +61,7 @@ class TagTest < ApplicationSystemTestCase
     visit '/'
 
     # login to first time user
-    find(".nav-link.loginToggle").click()
-    fill_in("username-login", with: "sushmita")
-    fill_in("password-signup", with: "secretive")
-
-    find(".login-modal-form #login-button").click()
+    log_in_as('sushmita')
 
     visit "/wiki/wiki-page-path"
 
@@ -93,11 +83,7 @@ class TagTest < ApplicationSystemTestCase
     visit '/'
 
     # login to first time poster
-    find(".nav-link.loginToggle").click()
-    fill_in("username-login", with: "sushmita")
-    fill_in("password-signup", with: "secretive")
-
-    find(".login-modal-form #login-button").click()
+    log_in_as('sushmita')
 
     visit "/wiki/wiki-page-path"
 
@@ -114,11 +100,7 @@ class TagTest < ApplicationSystemTestCase
     visit '/'
 
     # login to first time poster
-    find(".nav-link.loginToggle").click()
-    fill_in("username-login", with: "sushmita")
-    fill_in("password-signup", with: "secretive")
-
-    find(".login-modal-form #login-button").click()
+    log_in_as('sushmita')
 
     visit "/wiki/wiki-page-path"
 

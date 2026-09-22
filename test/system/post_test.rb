@@ -6,13 +6,7 @@ class PostTest < ApplicationSystemTestCase
   Capybara.default_max_wait_time = 60
 
   def setup
-    visit '/'
-
-    find(".nav-link.loginToggle").click()
-    fill_in("username-login", with: "palpatine")
-    fill_in("password-signup", with: "secretive")
-
-    find(".login-modal-form #login-button").click()
+    log_in_as('palpatine')
   end
 
   test 'posting from the editor' do

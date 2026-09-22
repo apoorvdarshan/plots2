@@ -465,8 +465,25 @@ class WikiController < ApplicationController
   end
 
   def comments
-    show
-    render :show unless performed?
+    @node = if params[:lang]
+              Node.find_wiki(params[:lang] + '/' + params[:id])
+            else
+              Node.find_wiki(params[:id])
+            end
+    if @node.nil?
+      flash[:warning] = I18n.t('wiki_controller.pages_does_not_exist')
+      redirect_to '/login'
+      return
+    end
+    return if redirect_to_node_path?(@node)
+
+    @tags = @node.tags
+    @tags += [Tag.find_by(name: params[:id])] if Tag.find_by(name: params[:id])
+    @tagnames = @tags.collect(&:name)
+    @revision = @node.latest
+    @title = @revision.title
+    @unpaginated = true
+    render :show
   end
 
   def update_node_attributes

@@ -7,6 +7,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   # https://web.archive.org/web/20170730200309/http://blog.paulrugelhiatt.com/rails/testing/capybara/dropzonejs/2014/12/29/test-dropzonejs-file-uploads-with-capybara.html
   def drop_in_dropzone(file_path, dropzoneSelector)
+    assert_selector(dropzoneSelector, visible: :all, wait: 60)
     existing_inputs = page.all('.fakeFileInput')
     new_input_id = 'fakeFileInput' + (existing_inputs.size + 1).to_s
 
@@ -54,6 +55,19 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
         };
       })(arguments[0])
     JS
+  end
+
+  def log_in_as(username, password = 'secretive')
+    visit '/'
+    find('.nav-link.loginToggle').click
+    fill_in('username-login', with: username)
+    fill_in('password-signup', with: password)
+    find('.login-modal-form #login-button').click
+    wait_until_logged_in
+  end
+
+  def wait_until_logged_in
+    assert_selector('a[href="/dashboard"]', wait: 60)
   end
 
   def wait_for_ajax

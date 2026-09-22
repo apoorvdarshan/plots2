@@ -6,13 +6,7 @@ class CommentTest < ApplicationSystemTestCase
   Capybara.default_max_wait_time = 60
 
   def setup
-    visit '/'
-
-    find(".nav-link.loginToggle").click()
-    fill_in("username-login", with: "jeff")
-    fill_in("password-signup", with: "secretive")
-
-    find(".login-modal-form #login-button").click()
+    log_in_as('jeff')
   end
 
   def get_path(page_type, path)
@@ -610,11 +604,7 @@ class CommentTest < ApplicationSystemTestCase
       visit '/logout'
       visit '/'
 
-      find(".nav-link.loginToggle").click()
-      fill_in("username-login", with: "sushmita")
-      fill_in("password-signup", with: "secretive")
-
-      find(".login-modal-form #login-button").click()
+      log_in_as('sushmita')
       visit get_path(page_type, nodes(node_name).path)
       assert_selector("#c#{comment.id}", count: 0)
     end
@@ -652,11 +642,7 @@ class CommentTest < ApplicationSystemTestCase
       visit '/logout'
       visit '/'
 
-      find(".nav-link.loginToggle").click()
-      fill_in("username-login", with: "sushmita")
-      fill_in("password-signup", with: "secretive")
-
-      find(".login-modal-form #login-button").click()
+      log_in_as('sushmita')
       visit get_path(page_type, nodes(node_name).path)
       assert_selector("#c#{comment.id}", count: 0)
     end
