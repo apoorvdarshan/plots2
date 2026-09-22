@@ -48,6 +48,13 @@ def page_types
   }
 end
 
+# Show the full exception backtrace in CI. Minitest otherwise keeps only the
+# test file line, which hides the real source of request-level ArgumentErrors.
+if ENV['CI']
+  Rails.backtrace_cleaner.remove_silencers!
+  Minitest.backtrace_filter = nil
+end
+
 WebMock.allow_net_connect!
 WebMock.stub_request(:any, "publiclab.org/api/srch/nearbyPeople")
   .to_return(

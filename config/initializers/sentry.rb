@@ -23,7 +23,9 @@ config.enabled_environments = %w[production stable unstable]
 # filter = ActiveSupport::ParameterFilter.new(Rails.application.config.filter_parameters)
 # for Rails 5:
 filter = ActionDispatch::Http::ParameterFilter.new(Rails.application.config.filter_parameters)
-  config.before_send = lambda do |event, hint|
+  # Use a proc so arity stays compatible if Sentry invokes this with only
+  # the event. A lambda would raise ArgumentError (given 1, expected 2).
+  config.before_send = proc do |event, _hint|
     filter.filter(event.to_hash)
   end
 end
