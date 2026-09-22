@@ -3,11 +3,7 @@ require "application_system_test_case"
 class ModerationTest < ApplicationSystemTestCase
 
   def setup
-    visit "/"
-    click_on "Login"
-    fill_in 'user_session[username]', with: 'palpatine'
-    fill_in 'user_session[password]', with: 'secretive'
-    click_on "Log in"
+    log_in_as('palpatine')
   end
 
   test "banning and unbanning a user" do
