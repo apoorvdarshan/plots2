@@ -12,6 +12,7 @@ class DashboardTest < ApplicationSystemTestCase
       fill_in("username-login", with: "Bob")
       fill_in("password-signup", with: "secretive")
       click_on I18n.t('user_sessions.new.log_in', locale: lang)
+      wait_until_logged_in
       visit '/v1/dashboard'
       uid = users(:bob).id
       visit '/profile/tags/create/'+uid.to_s+'?translationswitch=yes&name=translation-helper'
@@ -21,16 +22,7 @@ class DashboardTest < ApplicationSystemTestCase
   end
 
   test 'viewing the dashboard' do
-    visit '/'
-
-    click_on 'Login'
-
-    take_screenshot
-
-    fill_in("username-login", with: "Bob")
-    fill_in("password-signup", with: "secretive")
-    click_on "Log in"
-
+    log_in_as('Bob')
     visit '/v1/dashboard'
 
     assert_selector('.row .header h1', text: "Dashboard")
@@ -41,15 +33,11 @@ class DashboardTest < ApplicationSystemTestCase
   end
   
   test "User can flag a node from dashboard" do
-    visit '/'
-    click_on 'Login'
     node = Node.where(status: 1)
       .order(nid: :desc)
       .first
-    fill_in("username-login", with: "Bob")
-    fill_in("password-signup", with: "secretive")
-    click_on "Log in"
-    visit 'v1//dashboard'
+    log_in_as('Bob')
+    visit '/v1/dashboard'
     find("#flag_node#{node.id}").click()
     assert find("div.alert", text: "Node flagged.")
   end
