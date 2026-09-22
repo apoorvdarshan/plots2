@@ -72,6 +72,9 @@
   "devDependencies": {
     "webpack-dev-server": "^3"
   },
+  "scripts": {
+    "webpack": "./bin/webpack"
+  },
   "homepage": "https://github.com/publiclab/plots2",
   "engines": {
     "yarn": ">= 1.0.0"
