@@ -62,6 +62,13 @@ jobs:
         DB_PASSWORD: root
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: bundle exec rails g webpacker:install && bundle exec rails g webpacker:install:react && bundle exec rails g react:install
+    - name: Compile webpacker packs
+      env:
+        RAILS_ENV: test
+        NODE_ENV: test
+        DB_PASSWORD: root
+        DB_PORT: ${{ job.services.mysql.ports[3306] }}
+      run: bundle exec rails webpacker:compile
     - name: "Functional Tests"
       env:
         RAILS_ENV: test
@@ -86,6 +93,13 @@ jobs:
         DB_PASSWORD: root
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: bundle exec rails g webpacker:install && bundle exec rails g webpacker:install:react && bundle exec rails g react:install
+    - name: Compile webpacker packs
+      env:
+        RAILS_ENV: test
+        NODE_ENV: test
+        DB_PASSWORD: root
+        DB_PORT: ${{ job.services.mysql.ports[3306] }}
+      run: bundle exec rails webpacker:compile
     - name: "Integration Tests"
       env:
         RAILS_ENV: test
@@ -123,6 +137,13 @@ jobs:
         DB_PASSWORD: root
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: bundle exec rails g webpacker:install && bundle exec rails g webpacker:install:react && bundle exec rails g react:install
+    - name: Compile webpacker packs
+      env:
+        RAILS_ENV: test
+        NODE_ENV: test
+        DB_PASSWORD: root
+        DB_PORT: ${{ job.services.mysql.ports[3306] }}
+      run: bundle exec rails webpacker:compile
     - name: "System Tests"
       env:
         RAILS_ENV: test
@@ -136,10 +157,16 @@ jobs:
         bundle exec rails test:system
     - name: Archive system test screenshots
       if: always()
+      run: |
+        if [ -d tmp/screenshots ] && [ -n "$(ls -A tmp/screenshots 2>/dev/null)" ]; then
+          tar -czf tmp/screenshots.tar.gz -C tmp screenshots
+        fi
+    - name: Upload system test screenshots
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: system-test-screenshots
-        path: tmp/screenshots/*
+        path: tmp/screenshots.tar.gz
         if-no-files-found: ignore
 
   comment-system-tests:
@@ -172,6 +199,13 @@ jobs:
         DB_PASSWORD: root
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: bundle exec rails g webpacker:install && bundle exec rails g webpacker:install:react && bundle exec rails g react:install
+    - name: Compile webpacker packs
+      env:
+        RAILS_ENV: test
+        NODE_ENV: test
+        DB_PASSWORD: root
+        DB_PORT: ${{ job.services.mysql.ports[3306] }}
+      run: bundle exec rails webpacker:compile
     - name: "Comment System Tests"
       env:
         RAILS_ENV: test
@@ -185,10 +219,16 @@ jobs:
         bundle exec rails test test/comment_system_tests
     - name: Archive comment system test screenshots
       if: always()
+      run: |
+        if [ -d tmp/screenshots ] && [ -n "$(ls -A tmp/screenshots 2>/dev/null)" ]; then
+          tar -czf tmp/screenshots.tar.gz -C tmp screenshots
+        fi
+    - name: Upload comment system test screenshots
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: comment-system-test-screenshots
-        path: tmp/screenshots/*
+        path: tmp/screenshots.tar.gz
         if-no-files-found: ignore
 
   remove-labels:

@@ -56,11 +56,14 @@ gem 'responders', '~> 3.0'
 gem 'rubocop', '~> 1.33.0', require: false
 gem "ruby-openid", :require => "openid"
 gem 'sanitize'
-gem 'sentry-ruby'
-gem 'sentry-rails'
-gem 'sentry-resque'
-gem 'sentry-sidekiq'
-gem 'sentry-delayed_job'
+# Pin the Sentry family together. sentry-sidekiq 5.3.1 pulls sentry-ruby-core
+# 5.3.1, whose Rack middleware calls capture_exception(err) with one argument
+# while sentry-rails 5.4.2 defines capture_exception(exception, env).
+gem 'sentry-ruby', '5.4.2'
+gem 'sentry-rails', '5.4.2'
+gem 'sentry-resque', '5.4.2'
+gem 'sentry-sidekiq', '5.4.2'
+gem 'sentry-delayed_job', '5.4.2'
 gem 'sidekiq'
 gem 'skylight' # performance tracking via skylight.io
 gem 'turbolinks', '~> 5'

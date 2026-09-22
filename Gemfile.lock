@@ -568,21 +568,19 @@ GEM
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
     semantic_range (3.0.0)
-    sentry-delayed_job (5.4.1)
+    sentry-delayed_job (5.4.2)
       delayed_job (>= 4.0)
-      sentry-ruby (~> 5.4.1)
+      sentry-ruby (~> 5.4.2)
     sentry-rails (5.4.2)
       railties (>= 5.0)
       sentry-ruby (~> 5.4.2)
-    sentry-resque (5.4.1)
+    sentry-resque (5.4.2)
       resque (>= 1.24)
-      sentry-ruby (~> 5.4.1)
+      sentry-ruby (~> 5.4.2)
     sentry-ruby (5.4.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-ruby-core (5.3.1)
-      concurrent-ruby
-    sentry-sidekiq (5.3.1)
-      sentry-ruby-core (~> 5.3.1)
+    sentry-sidekiq (5.4.2)
+      sentry-ruby (~> 5.4.2)
       sidekiq (>= 3.0)
     sidekiq (6.5.6)
       connection_pool (>= 2.2.5)
@@ -771,11 +769,11 @@ DEPENDENCIES
   sassc-rails
   scrypt (~> 3)
   selenium-webdriver (~> 4.2.1)
-  sentry-delayed_job
-  sentry-rails
-  sentry-resque
-  sentry-ruby
-  sentry-sidekiq
+  sentry-delayed_job (= 5.4.2)
+  sentry-rails (= 5.4.2)
+  sentry-resque (= 5.4.2)
+  sentry-ruby (= 5.4.2)
+  sentry-sidekiq (= 5.4.2)
   sidekiq
   simplecov
   skylight
