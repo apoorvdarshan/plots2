@@ -139,9 +139,12 @@ jobs:
       env:
         NODE_OPTIONS: --openssl-legacy-provider
       run: |
+        set -euo pipefail
         sed -i '/^test:/,/^production:/ s/compile: true/compile: false/' config/webpacker.yml
         mkdir -p public/packs-test/js
-        ./public/lib/.bin/webpack --config .github/ci-webpack-test.js
+        NODE_PATH="$PWD/public/lib" node .github/ci-webpack-test.js
+        test -s public/packs-test/js/application.js
+        ls -la public/packs-test/js
         cat > public/packs-test/manifest.json <<'JSON'
         {
           "application.js": "/packs-test/js/application.js",
@@ -207,9 +210,12 @@ jobs:
       env:
         NODE_OPTIONS: --openssl-legacy-provider
       run: |
+        set -euo pipefail
         sed -i '/^test:/,/^production:/ s/compile: true/compile: false/' config/webpacker.yml
         mkdir -p public/packs-test/js
-        ./public/lib/.bin/webpack --config .github/ci-webpack-test.js
+        NODE_PATH="$PWD/public/lib" node .github/ci-webpack-test.js
+        test -s public/packs-test/js/application.js
+        ls -la public/packs-test/js
         cat > public/packs-test/manifest.json <<'JSON'
         {
           "application.js": "/packs-test/js/application.js",
