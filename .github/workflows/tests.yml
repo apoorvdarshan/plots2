@@ -135,15 +135,13 @@ jobs:
     - uses: ./.github/actions/setup-test-environment
     - name: Install JavaScript dependencies with Yarn
       run: yarn check || yarn install --frozen-lockfile;
-    - name: Stub webpacker packs
+    - name: Compile comment/editor webpack pack
+      env:
+        NODE_OPTIONS: --openssl-legacy-provider
       run: |
-        # Do not run webpacker:install here: it overwrites app JS and can
-        # relocate yarn modules away from public/lib, which breaks the editor.
-        # Full-app compile OOMs on ubuntu-latest. A stub pack is enough for
-        # javascript_pack_tag while sprockets + public/lib provide app JS.
         sed -i '/^test:/,/^production:/ s/compile: true/compile: false/' config/webpacker.yml
         mkdir -p public/packs-test/js
-        printf '%s\n' "console.log('packs-test stub');" > public/packs-test/js/application.js
+        ./public/lib/.bin/webpack --config .github/ci-webpack-test.js
         cat > public/packs-test/manifest.json <<'JSON'
         {
           "application.js": "/packs-test/js/application.js",
@@ -205,15 +203,13 @@ jobs:
     - uses: ./.github/actions/setup-test-environment
     - name: Install JavaScript dependencies with Yarn
       run: yarn check || yarn install --frozen-lockfile;
-    - name: Stub webpacker packs
+    - name: Compile comment/editor webpack pack
+      env:
+        NODE_OPTIONS: --openssl-legacy-provider
       run: |
-        # Do not run webpacker:install here: it overwrites app JS and can
-        # relocate yarn modules away from public/lib, which breaks the editor.
-        # Full-app compile OOMs on ubuntu-latest. A stub pack is enough for
-        # javascript_pack_tag while sprockets + public/lib provide app JS.
         sed -i '/^test:/,/^production:/ s/compile: true/compile: false/' config/webpacker.yml
         mkdir -p public/packs-test/js
-        printf '%s\n' "console.log('packs-test stub');" > public/packs-test/js/application.js
+        ./public/lib/.bin/webpack --config .github/ci-webpack-test.js
         cat > public/packs-test/manifest.json <<'JSON'
         {
           "application.js": "/packs-test/js/application.js",
