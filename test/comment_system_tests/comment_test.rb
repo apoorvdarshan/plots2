@@ -681,7 +681,9 @@ class CommentTest < ApplicationSystemTestCase
           fill_in('title', with: title_text)
           fill_in('text-input-main', with: body_text)
           find('#publish').click()
+          assert_selector('h1', text: title_text)
           visit "/wiki/#{title_text}/comments"
+          assert_selector('#comment-form-main')
       end
       assert_selector('h1', text: title_text)
       page.find("textarea#text-input-main")

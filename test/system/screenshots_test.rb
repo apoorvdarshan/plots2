@@ -199,22 +199,14 @@ class ScreenshotsTest < ApplicationSystemTestCase
   end
 
   test 'spam moderation page' do
-    visit '/'
-    click_on 'Login'
-    fill_in("username-login", with: "obiwan") # moderator
-    fill_in("password-signup", with: "secretive")
-    click_on "Log in"
+    log_in_as('obiwan')
     visit '/spam'
     assert_selector('#batch-delete', visible: true)
     take_screenshot
   end
 
   test 'blog page with location modal' do
-    visit '/'
-    click_on 'Login'
-    fill_in("username-login", with: "steff1")
-    fill_in("password-signup", with: "secretive")
-    click_on "Log in"
+    log_in_as('steff1')
     visit nodes(:blog).path
     find('a#tags-open').click # open the tagging form
     # click_on(class: 'blurred-location-input') # alternative
