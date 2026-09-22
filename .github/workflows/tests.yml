@@ -66,6 +66,7 @@ jobs:
       env:
         RAILS_ENV: test
         NODE_ENV: test
+        NODE_OPTIONS: --openssl-legacy-provider
         DB_PASSWORD: root
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: bundle exec rails webpacker:compile
@@ -97,6 +98,7 @@ jobs:
       env:
         RAILS_ENV: test
         NODE_ENV: test
+        NODE_OPTIONS: --openssl-legacy-provider
         DB_PASSWORD: root
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: bundle exec rails webpacker:compile
@@ -141,6 +143,7 @@ jobs:
       env:
         RAILS_ENV: test
         NODE_ENV: test
+        NODE_OPTIONS: --openssl-legacy-provider
         DB_PASSWORD: root
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: bundle exec rails webpacker:compile
@@ -203,6 +206,7 @@ jobs:
       env:
         RAILS_ENV: test
         NODE_ENV: test
+        NODE_OPTIONS: --openssl-legacy-provider
         DB_PASSWORD: root
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: bundle exec rails webpacker:compile
