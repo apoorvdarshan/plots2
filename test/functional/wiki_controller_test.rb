@@ -522,6 +522,13 @@ class WikiControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should get wiki comments without double render' do
+    wiki = nodes(:wiki_page)
+    slug = wiki.path.gsub('/wiki/', '')
+    get :comments, params: { id: slug }
+    assert_response :success
+  end
+
   test 'replacing content in a node with replace action' do
     UserSession.create(users(:jeff))
     node = nodes(:about)

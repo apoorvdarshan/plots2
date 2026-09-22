@@ -24,6 +24,24 @@ class UserSessionsControllerTest < ActionController::TestCase
     assert_redirected_to '/post?tags=question:question&template=question'
   end
 
+  test 'should login when return_to is a short path and session return_to is also set' do
+    session[:return_to] = '/login'
+    post :create, params: {
+      user_session: { username: users(:jeff).username, password: 'secretive' },
+      return_to: '/login'
+    }
+    assert_redirected_to '/dashboard'
+  end
+
+  test 'should extract nested subscribe return_to path after login' do
+    session[:return_to] = '/subscriptions'
+    post :create, params: {
+      user_session: { username: users(:jeff).username, password: 'secretive' },
+      return_to: '/login?return_to=/subscribe/multiple/tag/tag1,tag299'
+    }
+    assert_redirected_to '/subscribe/multiple/tag/tag1,tag299'
+  end
+
   test 'should choose I18n in settings controller, then display correct language login message on log in' do
     available_testing_locales.each do |lang|
       old_controller = @controller

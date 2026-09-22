@@ -466,7 +466,7 @@ class WikiController < ApplicationController
 
   def comments
     show
-    render :show
+    render :show unless performed?
   end
 
   def update_node_attributes
