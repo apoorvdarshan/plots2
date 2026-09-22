@@ -97,7 +97,7 @@ class TagController < ApplicationController
                   'comments'
                 end
 
-    if params[:id][-1..-1] == '*' # wildcard tags
+    if params[:id].present? && params[:id][-1..-1] == '*' # wildcard tags
       @wildcard = true
       @tags = Tag.where('name LIKE (?)', params[:id][0..-2] + '%')
       nodes = Node.for_tagname_and_type(params[:id], node_type, wildcard: true)
@@ -195,7 +195,7 @@ class TagController < ApplicationController
     node_type = 'map' if @node_type == 'maps'
     qids = Node.questions.where(status: 1).collect(&:nid)
 
-    if params[:id][-1..-1] == '*' # wildcard tags
+    if params[:id].present? && params[:id][-1..-1] == '*' # wildcard tags
       @wildcard = true
       @tags = Tag.where('name LIKE (?)', params[:id][0..-2] + '%')
     else
@@ -513,7 +513,7 @@ class TagController < ApplicationController
 
   def comments
     @qids = Node.questions.where(status: 1).collect(&:nid)
-    @wildcard = true if params[:id][-1..-1] == '*' # wildcard tags
+    @wildcard = true if params[:id].present? && params[:id][-1..-1] == '*' # wildcard tags
     fetch_counts
     get_wiki
     @title = params[:id]
