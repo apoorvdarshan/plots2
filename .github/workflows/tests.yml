@@ -142,9 +142,9 @@ jobs:
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: |
         bundle exec rails g webpacker:install && bundle exec rails g webpacker:install:react && bundle exec rails g react:install
-        # Keep generated webpack packs so compile stays small. Restore
-        # sprockets assets and views so addComment and page markup remain.
-        git checkout -- app/assets app/views
+        # Keep generated webpack config so compile stays small. Restore
+        # app JS/views so addComment, React comments, and markup remain.
+        git checkout -- app/assets app/javascript app/views
     - name: Compile webpacker packs
       env:
         RAILS_ENV: test
@@ -210,9 +210,9 @@ jobs:
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: |
         bundle exec rails g webpacker:install && bundle exec rails g webpacker:install:react && bundle exec rails g react:install
-        # Keep generated webpack packs so compile stays small. Restore
-        # sprockets assets and views so addComment and page markup remain.
-        git checkout -- app/assets app/views
+        # Keep generated webpack config so compile stays small. Restore
+        # app JS/views so addComment, React comments, and markup remain.
+        git checkout -- app/assets app/javascript app/views
     - name: Compile webpacker packs
       env:
         RAILS_ENV: test

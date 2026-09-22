@@ -617,6 +617,7 @@ class Node < ActiveRecord::Base
   end
 
   def self.for_question_tagname_and_type(tagname, type = 'note')
+    tagname = tagname.to_s
     other_tag = tagname.include?("question:") ? tagname.split(':')[1] : "question:#{tagname}"
     Node.where(status: 1, type: type)
       .includes(:revision, :tag)
